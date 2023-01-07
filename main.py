@@ -1,5 +1,5 @@
-from keyPress import KeyPress
-from gui.mainGui import MainGui
+from KeyPress import KeyPress
+from Gui import MainGui
 
 if __name__ == "__main__":
   main_gui = MainGui()
