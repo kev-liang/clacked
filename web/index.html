@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>Clacked</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <script type="text/javascript" src="/eel.js"></script>
+    <script type="text/javascript">
+      async function getSounds() {
+        let select = document.getElementById('sounds');
+        let options = await eel.get_sounds()();
+        options.forEach((option, i) => {
+          console.log({ option });
+          let opt = document.createElement('option');
+          opt.value = i;
+          opt.innerHTML = option;
+          select.append(opt);
+        });
+      }
+
+      document.addEventListener('DOMContentLoaded', async function () {
+        await getSounds();
+        var elems = document.querySelectorAll('select');
+        var instances = M.FormSelect.init(elems);
+      });
+
+    </script>
+
+  </head>
+
+  <body>
+    <h1 id="title">Clacked</h1>
+
+    <div class="choose-sound">
+      <p id="choose-sound-label">Choose a sound:</p>
+      <div class="input-field col s12">
+        <select id="sounds"></select>
+      </div>
+    </div>
+
+    <div>
+      <p>+ Add custom sound</p>
+    </div>
+  </body>
+
+</html>

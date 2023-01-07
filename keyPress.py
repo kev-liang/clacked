@@ -1,17 +1,20 @@
 import winsound
 from pynput.keyboard import Listener
 from tkinter import Tk, Label, PhotoImage, Canvas
+import eel
 
 class KeyPress:
-  def __init__(self, mainGui): 
-    self.mainGui = mainGui
-    
+  def __init__(self, file_helper):
+    self.file_helper = file_helper
+
   def on_press_windows(self, key):
-    winsound.PlaySound("clack.wav", winsound.SND_ASYNC)
+    pass
+    # winsound.PlaySound("clack.wav", winsound.SND_ASYNC)
 
   def listen(self):
     with Listener(on_press=self.on_press_windows) as listener:
-      self.mainGui.main_loop()
+      eel.init('web', allowed_extensions=['.js', '.html'])
+      eel.start('index.html', size=(400, 500))
       listener.join() 
 
 

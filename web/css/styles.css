@@ -1,0 +1,44 @@
+@font-face {
+	font-family: 'Poppins';
+	src: url('./Poppins.ttf') format('truetype');
+}
+
+body {
+	background-image: url('../background.png');
+	font-family: 'Poppins';
+	color: #f2f2f2;
+	padding: 16px;
+}
+
+#title {
+	text-align: center;
+	margin-top: 20%;
+	font-size: 64px;
+	font-weight: 100;
+}
+
+.choose-sound {
+	margin-bottom: 24px;
+}
+
+#choose-sound-label {
+	margin: 0 0 -16px 0;
+}
+
+.dropdown-content li > span {
+	color: #222 !important;
+	font-family: 'Poppins';
+}
+
+.select-wrapper input.select-dropdown {
+	color: #f2f2f2 !important;
+	border-bottom: 1px solid #f2f2f2 !important;
+}
+
+.select-wrapper input.select-dropdown:focus {
+	border-bottom: 1px solid #f2f2f2 !important;
+}
+
+.select-wrapper .caret {
+	fill: #f2f2f2 !important;
+}
