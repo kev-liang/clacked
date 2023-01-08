@@ -42,3 +42,7 @@ body {
 .select-wrapper .caret {
 	fill: #f2f2f2 !important;
 }
+
+#custom-sound {
+	cursor: pointer;
+}

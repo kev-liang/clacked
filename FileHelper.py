@@ -4,13 +4,6 @@ import shutil
 from pathlib import Path
 import eel
 
-@eel.expose
-def get_sounds():
-  result = []
-  for file in os.listdir(FileHelper.app_data_path):
-    result.append(file)
-  return result
-  
 class FileHelper:
   app_data_path = user_data_dir("clacked", "clacked")
 
@@ -28,3 +21,14 @@ class FileHelper:
   def get_app_dat_path(self):
     return self.app_data_path
 
+@eel.expose
+def get_sounds():
+  result = []
+  for file in os.listdir(FileHelper.app_data_path):
+    result.append(file)
+  return result
+  
+# windows-specific 
+@eel.expose
+def open_sound_folder():
+    os.startfile(FileHelper.app_data_path)

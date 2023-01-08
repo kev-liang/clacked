@@ -13,9 +13,8 @@
         let select = document.getElementById('sounds');
         let options = await eel.get_sounds()();
         options.forEach((option, i) => {
-          console.log({ option });
           let opt = document.createElement('option');
-          opt.value = i;
+          opt.value = option;
           opt.innerHTML = option;
           select.append(opt);
         });
@@ -27,6 +26,15 @@
         var instances = M.FormSelect.init(elems);
       });
 
+      function emitSelect(e) {
+        let select = document.getElementById('sounds');
+        let sound = select.value;
+        eel.set_sound(sound)();
+      }
+
+      function addCustomSound() {
+        eel.open_sound_folder()()
+      }
     </script>
 
   </head>
@@ -37,12 +45,12 @@
     <div class="choose-sound">
       <p id="choose-sound-label">Choose a sound:</p>
       <div class="input-field col s12">
-        <select id="sounds"></select>
+        <select id="sounds" onchange="emitSelect()"></select>
       </div>
     </div>
 
     <div>
-      <p>+ Add custom sound</p>
+      <p id="custom-sound" onclick="addCustomSound()">+ Add custom sound</p>
     </div>
   </body>
 
