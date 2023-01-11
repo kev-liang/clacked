@@ -21,7 +21,8 @@ body {
 	margin-bottom: 24px;
 }
 
-#choose-sound-label {
+#choose-sound-label,
+#filters-label {
 	margin: 0 0 -16px 0;
 }
 
@@ -45,4 +46,15 @@ body {
 
 #custom-sound {
 	cursor: pointer;
+}
+
+.dropdown-content li > a,
+.dropdown-content li > span {
+	display: flex !important;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.sound-star {
+	font-size: 20px;
 }

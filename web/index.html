@@ -6,27 +6,69 @@
     <link rel="stylesheet" href="css/styles.css" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
     <script type="text/javascript" src="js/materialize.min.js"></script>
     <script type="text/javascript" src="/eel.js"></script>
     <script type="text/javascript">
-      async function getSounds() {
+      let favorites = []
+
+      function removeSounds(select) {
+        for (let i = select.options.length; i >= 0; i--) {
+          select.remove(i)
+        }
+      }
+
+      function createStar(soundName) {
+        let starContainer = document.createElement("div")
+        starContainer.className = "star-container"
+        let star = document.createElement("i")
+        let foundFavorite = favorites.find(favorite => favorite === soundName)
+        star.className = `mdi yellow-text text-darken-2 ${foundFavorite ? "mdi-star" : "mdi-star-outline"}`
+        starContainer.append(star)
+        return starContainer
+      }
+
+      function addClickEventListeners() {
+        let stars = document.querySelectorAll(".star-container")
+        stars.forEach(star => {
+          star.addEventListener('click', e => {
+            e.preventDefault()
+            e.stopPropagation()
+            sound = e.target.parentElement.parentElement.innerText
+            eel.toggle_favorite(sound)
+          })
+        })
+      }
+
+      function setSounds(options) {
         let select = document.getElementById('sounds');
-        let options = await eel.get_sounds()();
+        removeSounds(select)
         options.forEach((option, i) => {
           let opt = document.createElement('option');
+          let optText = document.createElement("p")
+          optText.innerText = option
+          let star = createStar(option);
           opt.value = option;
-          opt.innerHTML = option;
+          opt.append(optText)
+          opt.append(star)
           select.append(opt);
         });
+        var elems = document.querySelectorAll('select');
+        var instances = M.FormSelect.init(elems);
+        addClickEventListeners();
+      }
+
+      async function getSounds() {
+        let options = await eel.get_sounds()();
+        setSounds(options)
       }
 
       document.addEventListener('DOMContentLoaded', async function () {
+        favorites = await eel.get_favorites()()
         await getSounds();
-        var elems = document.querySelectorAll('select');
-        var instances = M.FormSelect.init(elems);
       });
 
-      function emitSelect(e) {
+      function emitSelect() {
         let select = document.getElementById('sounds');
         let sound = select.value;
         eel.set_sound(sound)();
@@ -35,15 +77,40 @@
       function addCustomSound() {
         eel.open_sound_folder()()
       }
+
+      async function changeFilter() {
+        let select = document.getElementById('filters');
+        let filter = select.value;
+        let options;
+        if (filter === "favorites") {
+          options = favorites
+        } else {
+          options = await eel.filter_sounds(filter)()
+        }
+        setSounds(options)
+      }
     </script>
 
   </head>
 
   <body>
     <h1 id="title">Clacked</h1>
-
+    <div>
+      <p id="filters-label">Filters:</p>
+      <div class="input-field col s12">
+        <select id="filters" onchange="changeFilter()">
+          <option value="none">None</option>
+          <option value="favorites">Favorites</option>
+          <option value="keyboard">Keyboard</option>
+          <option value="percussion">Percussion</option>
+          <option value="custom">Custom</option>
+        </select>
+      </div>
+    </div>
     <div class="choose-sound">
-      <p id="choose-sound-label">Choose a sound:</p>
+      <div>
+        <p id="choose-sound-label">Choose a sound:</p>
+      </div>
       <div class="input-field col s12">
         <select id="sounds" onchange="emitSelect()"></select>
       </div>
